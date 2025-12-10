@@ -105,7 +105,6 @@ phpzfxt/
 
 - Server-side and client-side input validation
 - Parameterized queries and SQL escaping via custom Model class
-- Output encoding for XSS prevention
 - Captcha verification using GD2 + session + random numbers
 - Secure session management with automatic timeout checking
 - File upload validation (extension and MIME type checking)
