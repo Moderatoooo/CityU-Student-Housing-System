@@ -1,0 +1,341 @@
+<?php require_once 'initialize.php'; ?><?php // --------------------------------------------------
+$where = " 1=1 "; // 防止sql 语句where and 这样的错误
+$orderby = isset($_REQUEST['orderby']) ? $_REQUEST['orderby'] : 'id';   // 获取前台搜索框中 选择的排序类型,默认为发布时间倒序
+$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'DESC'; // 获取前台搜索框中 排序类型，默认为倒序
+//  设置为当前用户的数据
+$where .= " AND faburen='" . $_SESSION["username"] . "' ";
+
+
+// 设置zulin模块，表id 的值是提交过来，有则只查询这些内容
+
+
+if ($_REQUEST["zulinid"] != "") {
+    $where .= " AND zulinid='" . $_REQUEST["zulinid"] . "' ";
+}
+// 根据搜索提交的表单搜索数据
+
+if ($_GET["fangwubiaoti"] != null && !"" == $_GET["fangwubiaoti"]) {
+    $where .= " AND fangwubiaoti LIKE '%" . $_GET["fangwubiaoti"] . "%'";
+}
+if ($_GET["fangwuhuxing"] != null && !"" == $_GET["fangwuhuxing"]) {
+    $where .= " AND fangwuhuxing LIKE '%" . $_GET["fangwuhuxing"] . "%'";
+}
+if ($_GET["yajinfangshi"] != null && !"" == $_GET["yajinfangshi"]) {
+    $where .= " AND yajinfangshi ='" . $_GET["yajinfangshi"] . "'";
+}
+if ($_GET["leixing"] != null && !"" == $_GET["leixing"]) {
+    $where .= " AND leixing ='" . $_GET["leixing"] . "'";
+}
+if ($_GET["jiagequjian"] != null && !"" == $_GET["jiagequjian"]) {
+    $where .= " AND jiagequjian ='" . $_GET["jiagequjian"] . "'";
+}
+if ($_GET["julixuexiao"] != null && !"" == $_GET["julixuexiao"]) {
+    $where .= " AND julixuexiao ='" . $_GET["julixuexiao"] . "'";
+}
+if ($_GET["sheshi"] != null && !"" == $_GET["sheshi"]) {
+    $where .= " AND sheshi LIKE '%" . $_GET["sheshi"] . "%'";
+}
+if ($_GET["shifouyoudianti"] != null && !"" == $_GET["shifouyoudianti"]) {
+    $where .= " AND shifouyoudianti ='" . $_GET["shifouyoudianti"] . "'";
+}
+if ($_GET["zulinleixing"] != null && !"" == $_GET["zulinleixing"]) {
+    $where .= " AND zulinleixing ='" . $_GET["zulinleixing"] . "'";
+}
+if ($_GET["biaoti"] != null && !"" == $_GET["biaoti"]) {
+    $where .= " AND biaoti LIKE '%" . $_GET["biaoti"] . "%'";
+}
+if ($_GET["lianxiren"] != null && !"" == $_GET["lianxiren"]) {
+    $where .= " AND lianxiren LIKE '%" . $_GET["lianxiren"] . "%'";
+}
+
+// 构建fenzuxinxi数据模型
+$query = M("fenzuxinxi");
+// 设置所有字段
+$query->field("*");
+$query->where($where)->order("$orderby $sort");   // 根据条件查询列表
+list($lists, $page) = $query->page(15);    // 查询列表并返回分页代码
+
+// ------------------------------------------------------------------
+
+?><?php include "head.php" ?>
+
+
+    <div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+        <span class="titles">
+            分租信息查询
+        </span>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-search pa10 bg-warning">
+                    <form class="form-inline" action="?" size="small" id="formSearch"><!-- form 标签开始 -->
+
+
+                        房屋标题： <input type="text" class="form-control" style="" name="fangwubiaoti"
+                                     value="<?php echo $_GET["fangwubiaoti"]; ?>"/>
+
+                        房屋户型： <input type="text" class="form-control" style="" name="fangwuhuxing"
+                                     value="<?php echo $_GET["fangwuhuxing"]; ?>"/>
+
+                        押金方式： <select class="form-control class_yajinfangshi8"
+                                      data-value="<?php echo $_GET["yajinfangshi"]; ?>" id="yajinfangshi"
+                                      name="yajinfangshi">
+                            <option value="">请选择</option>
+                            <option value="免押金">免押金</option>
+                            <option value="押一付一">押一付一</option>
+                            <option value="押二付一">押二付一</option>
+                            <option value="其他">其他</option>
+
+                        </select>
+                        <script>
+                            $(".class_yajinfangshi8").val($(".class_yajinfangshi8").attr("data-value"))</script>
+
+
+                        类型： <select class="form-control class_leixing9" data-value="<?php echo $_GET["leixing"]; ?>"
+                                    id="leixing" name="leixing">
+                            <option value="">请选择
+                            </option><?php $select = db()->select("SELECT * FROM fangwuleixing ORDER BY id desc"); ?>
+                            <?php foreach ($select as $m) { ?>
+                                <option value="<?php echo $m["id"]; ?>"><?php echo $m["leixing"]; ?></option>
+                            <?php } ?>
+
+                        </select>
+                        <script>
+                            $(".class_leixing9").val($(".class_leixing9").attr("data-value"))</script>
+
+
+                        价格区间： <select class="form-control class_jiagequjian10"
+                                      data-value="<?php echo $_GET["jiagequjian"]; ?>" id="jiagequjian"
+                                      name="jiagequjian">
+                            <option value="">请选择</option>
+                            <option value="100以下">100以下</option>
+                            <option value="100-500">100-500</option>
+                            <option value="500-1000">500-1000</option>
+                            <option value="1000-2000">1000-2000</option>
+                            <option value="2000-3000">2000-3000</option>
+                            <option value="3000以上">3000以上</option>
+
+                        </select>
+                        <script>
+                            $(".class_jiagequjian10").val($(".class_jiagequjian10").attr("data-value"))</script>
+
+
+                        距离学校： <select class="form-control class_julixuexiao11"
+                                      data-value="<?php echo $_GET["julixuexiao"]; ?>" id="julixuexiao"
+                                      name="julixuexiao">
+                            <option value="">请选择</option>
+                            <option value="100米">100米</option>
+                            <option value="500米">500米</option>
+                            <option value="1000米">1000米</option>
+                            <option value="1000米以上">1000米以上</option>
+
+                        </select>
+                        <script>
+                            $(".class_julixuexiao11").val($(".class_julixuexiao11").attr("data-value"))</script>
+
+
+                        设施： <select class="form-control class_sheshi12" data-value="<?php echo $_GET["sheshi"]; ?>"
+                                    id="sheshi" name="sheshi[]">
+                            <option value="">请选择</option>
+                            <option value="床">床</option>
+                            <option value="衣柜">衣柜</option>
+                            <option value="沙发">沙发</option>
+                            <option value="电视">电视</option>
+                            <option value="冰箱">冰箱</option>
+                            <option value="洗衣机">洗衣机</option>
+                            <option value="空调">空调</option>
+                            <option value="热水器">热水器</option>
+                            <option value="宽带">宽带</option>
+                            <option value="暖气">暖气</option>
+                            <option value="燃气罩">燃气罩</option>
+                            <option value="阳台">阳台</option>
+                            <option value="卫生巾">卫生巾</option>
+                            <option value="只能门锁">只能门锁</option>
+                            <option value="油烟机">油烟机</option>
+                            <option value="可做饭">可做饭</option>
+
+                        </select>
+                        <script>
+                            (function () {
+                                var dataValue = "<?php echo $_GET["sheshi"]; ?>".split(",");
+                                for (var i = 0; i < dataValue.length; i++) {
+                                    $(".class_sheshi12>option[value='" + dataValue[i] + "']").prop("selected", true);
+                                }
+                            })()</script>
+
+
+                        是否有电梯： <select class="form-control class_shifouyoudianti13"
+                                       data-value="<?php echo $_GET["shifouyoudianti"]; ?>" id="shifouyoudianti"
+                                       name="shifouyoudianti">
+                            <option value="">请选择</option>
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+
+                        </select>
+                        <script>
+                            $(".class_shifouyoudianti13").val($(".class_shifouyoudianti13").attr("data-value"))</script>
+
+
+                        租赁类型： <select class="form-control class_zulinleixing14"
+                                      data-value="<?php echo $_GET["zulinleixing"]; ?>" id="zulinleixing"
+                                      name="zulinleixing">
+                            <option value="">请选择</option>
+                            <option value="整租">整租</option>
+                            <option value="分租">分租</option>
+
+                        </select>
+                        <script>
+                            $(".class_zulinleixing14").val($(".class_zulinleixing14").attr("data-value"))</script>
+
+
+                        标题： <input type="text" class="form-control" style="" name="biaoti"
+                                   value="<?php echo $_GET["biaoti"]; ?>"/>
+
+                        联系人： <input type="text" class="form-control" style="" name="lianxiren"
+                                    value="<?php echo $_GET["lianxiren"]; ?>"/>
+
+                        <select class="form-control" name="orderby" id="orderby">
+
+                            <option value="id">按发布时间</option>
+                            <option value="dianjilv">
+                                按点击率
+                            </option>
+
+                        </select>
+
+                        <select class="form-control" name="sort" id="sort">
+
+                            <option value="desc">倒序</option>
+                            <option value="asc">升序</option>
+
+                        </select>
+
+                        <button type="submit" class="btn btn-default">
+                            搜索
+                        </button>
+
+
+                        <!--form标签结束--></form>
+                </div>
+
+
+                <script>$("#orderby").val("<?php echo $orderby; ?>");
+                    $("#sort").val("<?php echo $sort; ?>".toLocaleLowerCase());</script>
+
+
+                <div class="list-table">
+                    <table width="100%" border="1" class="table table-list table-bordered table-hover">
+                        <thead>
+                        <tr align="center">
+                            <th width="60" data-field="item">序号</th>
+                            <th data-field="fangwubiaoti">房屋标题</th>
+                            <th data-field="fangwuhuxing">房屋户型</th>
+                            <th data-field="xiaoqumingcheng">小区名称</th>
+                            <th data-field="fangwutupian">房屋图片</th>
+                            <th data-field="louceng">楼层</th>
+                            <th data-field="mianji">面积</th>
+                            <th data-field="fangwuzujin">房屋租金</th>
+                            <th data-field="yajinfangshi">押金方式</th>
+                            <th data-field="leixing">类型</th>
+                            <th data-field="fangjianshu">房间数</th>
+                            <th data-field="zulinleixing">租赁类型</th>
+                            <th data-field="fangwudizhi">房屋地址</th>
+                            <th data-field="zulinshichang">租赁时长 (月)
+                            </th>
+                            <th data-field="zulinyonghu">租赁用户</th>
+                            <th data-field="biaoti">标题</th>
+                            <th data-field="fentanzujin">分摊租金</th>
+                            <th data-field="lianxiren">联系人</th>
+                            <th data-field="lianxifangshi">联系方式</th>
+                            <th data-field="dianjilv">点击率</th>
+
+                            <th width="80" data-field="issh">审核状态</th>
+                            <th width="220" data-field="handler">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php $i = 0;
+                        foreach ($lists as $map) {
+                            $i++;
+                            ?>
+                            <tr id="<?php echo $map["id"]; ?>" pid="">
+                                <td width="30" align="center">
+                                    <label>
+                                        <?php echo $i; ?>
+                                    </label>
+                                </td>
+                                <td>
+                                    <?php echo $map["fangwubiaoti"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["fangwuhuxing"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["xiaoqumingcheng"]; ?>                        </td>
+                                <td>
+                                    <?php if ("" == $map["fangwutupian"]) { ?>-<?php } else { ?><img width="100"
+                                                                                                     src="<?php echo Info::images($map["fangwutupian"]); ?>"/><?php } ?>
+                                </td>
+                                <td>
+                                    <?php echo $map["louceng"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["mianji"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["fangwuzujin"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["yajinfangshi"]; ?>                        </td>
+                                <td>
+                                    <?php $mapfangwuleixing4 = db()->find("SELECT leixing,id FROM fangwuleixing where id='" . $map["leixing"] . "'"); ?><?php echo $mapfangwuleixing4["leixing"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["fangjianshu"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["zulinleixing"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["fangwudizhi"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["zulinshichang"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["zulinyonghu"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["biaoti"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["fentanzujin"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["lianxiren"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["lianxifangshi"]; ?>                        </td>
+                                <td>
+                                    <?php echo $map["dianjilv"]; ?>                        </td>
+
+                                <td>
+                                    <?php echo $map["issh"]; ?>
+                                </td>
+                                <td align="center">
+                                    <a class="btn btn-info btn-xs"
+                                       href="fenzuxinxi_detail.php?id=<?php echo $map["id"]; ?>" title="详情"> 详情 </a>
+
+
+                                    <!--qiatnalijne-->
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <?php echo $page->show() ?>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+<?php include "foot.php" ?>
