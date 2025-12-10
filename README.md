@@ -83,7 +83,7 @@ phpzfxt/
 ### Technical Stack
 - **Frontend**: Bootstrap 3, jQuery, jQuery.validate, Layer popups
 - **Backend**: PHP page-based architecture, MySQLi, custom ORM
-- **Security**: Input validation, SQL injection prevention, XSS protection
+- **Security**: Input validation, SQL injection prevention
 - **File Handling**: Upload system with MIME type validation
 - **Authentication**: Session-based login with captcha verification
 
