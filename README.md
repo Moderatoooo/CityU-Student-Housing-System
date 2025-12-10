@@ -76,7 +76,7 @@ phpzfxt/
 ### Core Functionality
 - User Management: Registration, authentication, role-based access
 - Property Management: Listings, categorization, image galleries
-- Rental Operations: Lease agreements, applications, payment tracking
+- Rental Operations: Lease agreements, applications
 - Communication System: Private messaging, comments, notifications
 - Administrative Tools: Full CRUD operations, audit logs, batch processing
 
