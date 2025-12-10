@@ -1,2 +1,2 @@
 # CityU-Student-Housing-System
-An efficient, user-friendly housing system tailored for mainland Chinese students at CityU.
+An efficient, user-friendly housing system tailored for mainland Chinese students at CityU. It streamlines housing info management with advanced search/filtering and roommate matching, resolving rental pain points like information asymmetry and tedious property selection. The system also equips landlords with intuitive listing & management tools, bridging supply and demand to boost the campus housing market.
