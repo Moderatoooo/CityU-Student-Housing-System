@@ -19,22 +19,19 @@ A web-based housing management platform designed specifically for CityU mainland
 ### Installation Steps
 
 1. **Project Setup**
-   - Create a folder named `phpzfxt` in your web server's document root
-   - Copy all project files into the `phpzfxt` folder
+   - Create folder `phpzfxt` in web server document root
+   - Copy all project files to `phpzfxt` folder
 
 2. **Start Web Services**
-   - Open your PHP development environment (e.g., phpStudy)
+   - Open PHP development environment
    - Start Apache and MySQL services
 
-3. **Access the Application**
-   - Once services are running
-   - Open the web browser
-   - Navigate to: `http://localhost/phpzfxt/`
+3. **Access Application**
+   - Open browser and navigate to: `http://127.0.0.1/phpzfxt/`
 
 4. **Login Credentials**
-   - Use the default admin credentials:
-     - **Username**: `admin`
-     - **Password**: `admin`
+   - Username: `admin`
+   - Password: `admin`
 
 ## 🏗️ Architecture
 
@@ -82,7 +79,7 @@ phpzfxt/
 
 ### Technical Stack
 - **Frontend**: Bootstrap 3, jQuery, jQuery.validate, Layer popups
-- **Backend**: PHP page-based architecture, MySQLi, custom ORM
+- **Backend**: PHP page-based architecture, MySQLi
 - **Security**: Input validation, SQL injection prevention
 - **File Handling**: Upload system with MIME type validation
 - **Authentication**: Session-based login with captcha verification
@@ -107,5 +104,5 @@ phpzfxt/
 - Parameterized queries and SQL escaping via custom Model class
 - Captcha verification using GD2 + session + random numbers
 - Secure session management with automatic timeout checking
-- File upload validation (extension and MIME type checking)
+- File upload validation
 - Role-based access control for different user types
